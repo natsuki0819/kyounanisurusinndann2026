@@ -466,3 +466,60 @@ document
     showQuestion();
 
 });
+// ======================
+// 行動履歴
+// ======================
+
+const saveBtn = document.getElementById("saveActionBtn");
+const historyList = document.getElementById("historyList");
+
+// 保存
+
+saveBtn.addEventListener("click",()=>{
+
+    const action = resultText.textContent;
+
+    const today = new Date();
+
+    const date =
+        today.getFullYear() + "/" +
+        (today.getMonth()+1) + "/" +
+        today.getDate();
+
+    const history =
+        JSON.parse(localStorage.getItem("history")) || [];
+
+    history.unshift({
+        date:date,
+        action:action
+    });
+
+    localStorage.setItem(
+        "history",
+        JSON.stringify(history)
+    );
+
+    loadHistory();
+
+});
+
+// 表示
+
+function loadHistory(){
+
+    historyList.innerHTML="";
+
+    const history =
+        JSON.parse(localStorage.getItem("history")) || [];
+
+    history.forEach(item=>{
+
+        const li=document.createElement("li");
+
+        li.innerHTML=
+        `<strong>${item.date}</strong><br>${item.action}`;
+
+        historyList.appendChild(li);
+
+    });
+
